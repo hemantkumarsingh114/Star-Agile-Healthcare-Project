@@ -14,7 +14,7 @@ pipeline {
                 }
             }
         }
-          stage('Docker Hub login') {
+        stage('Docker Hub login') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh "echo $PASS | docker login -u $USER --password-stdin"
@@ -25,12 +25,15 @@ pipeline {
                 
         stage('Deploy to Kubernetes') {
             when {
-                branch 'master'
+                expression { 
+                    // Debug: Print the branch name
+                    echo "Branch: ${env.BRANCH_NAME}"
+                    return env.BRANCH_NAME == 'master'
+                }
             }
             steps {
                 script {
                     kubernetesDeploy(configs: 'deploymentservice.yml', kubeconfigId: 'k8sconfigpwd')
-                   
                 }
             }
         }
