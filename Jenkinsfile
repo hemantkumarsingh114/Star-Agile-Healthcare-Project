@@ -24,11 +24,9 @@ pipeline {
         }
                 
         stage('Deploy to K8s'){
-            when{ expression {env.GIT_BRANCH == 'master'}}
             steps{
                 script{
-                     kubernetesDeploy (configs: 'deploymentservice.yaml' ,kubeconfigId: 'k8sconfigpwd')
-                   
+                     kubernetesDeploy (configs: 'deploymentservice.yaml', kubeconfigId: 'k8sconfigpwd')
                 }
             }
         }
