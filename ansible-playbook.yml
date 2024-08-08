@@ -23,7 +23,7 @@
 
     - name: Run Docker Application Container
       docker_container:
-        name: WebApp01
+        name: WebApp_01
         image: hemantkumarsingh114/healthcareproject:1.0
         state: started
         restart_policy: always
